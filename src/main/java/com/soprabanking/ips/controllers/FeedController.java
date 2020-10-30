@@ -1,6 +1,5 @@
 package com.soprabanking.ips.controllers;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -131,8 +130,8 @@ public class FeedController {
 	//[ "2020-10-15", "2020-10-29"]
 	@PostMapping("/all")
 	public ResponseEntity<List<Proposal>> getAllProposalFeed(
-				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
+				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate,
 				@RequestParam int page,
 				@RequestParam int size){
 		
