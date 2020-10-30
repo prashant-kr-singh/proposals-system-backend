@@ -1,7 +1,10 @@
 package com.soprabanking.ips.controllers;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.soprabanking.ips.models.Proposal;
 import com.soprabanking.ips.models.Team;
 import com.soprabanking.ips.models.User;
+import com.soprabanking.ips.repositories.ProposalRepository;
 import com.soprabanking.ips.repositories.TeamRepository;
 import com.soprabanking.ips.repositories.UserRepository;
 import com.soprabanking.ips.services.FeedService;
@@ -32,6 +36,9 @@ public class FeedController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private ProposalRepository proposalRepository;
 	
 	@GetMapping("/save")
 	public User save() {
@@ -73,6 +80,46 @@ public class FeedController {
 		user4.setCreationDate(new Date());
 		user4.setTeam(team2);
 		userRepository.save(user4);
+		
+		Set<Team> l1 = new HashSet<>();
+		l1.add(team1);
+		
+		Set<Team> l2 = new HashSet<>();
+		l2.add(team1);
+		l2.add(team2);
+		
+		Proposal p1 = new Proposal();
+		p1.setTitle("Title 1");
+		p1.setDescription("Description 1");
+		p1.setCreationDate(new Date());
+		p1.setUser(user1);
+		p1.setTeams(l1);
+		proposalRepository.save(p1);
+		
+		Proposal p2 = new Proposal();
+		p2.setTitle("Title 2");
+		p2.setDescription("Description 2");
+		p2.setCreationDate(new Date());
+		p2.setUser(user2);
+		p2.setTeams(l2);
+		proposalRepository.save(p2);
+		
+		Proposal p3 = new Proposal();
+		p3.setTitle("Title 3");
+		p3.setDescription("Description 3");
+		p3.setCreationDate(new Date());
+		p3.setUser(user3);
+		p3.setTeams(l1);
+		proposalRepository.save(p3);
+		
+		Proposal p4 = new Proposal();
+		p4.setTitle("Title 4");
+		p4.setDescription("Description 4");
+		p4.setCreationDate(new Date());
+		p4.setUser(user4);
+		p4.setTeams(l2);
+		proposalRepository.save(p4);
+		
 		
 		User u = userRepository.getOne((long) 1);
 		

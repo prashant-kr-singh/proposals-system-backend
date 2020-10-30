@@ -1,6 +1,7 @@
 package com.soprabanking.ips.models;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -50,6 +51,7 @@ public class Proposal {
 	
 	public Proposal() {
 		// TODO Auto-generated constructor stub
+		teams = new HashSet<>();
 	}
 
 	public Long getId() {
