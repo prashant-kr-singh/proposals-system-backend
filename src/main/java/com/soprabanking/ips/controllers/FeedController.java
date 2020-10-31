@@ -140,7 +140,7 @@ public class FeedController {
 	public ResponseEntity<List<Proposal>> getAllProposalFeed(
 				@RequestBody String body){
 		
-		System.out.println("d " + body);
+		//System.out.println("d " + body);
 		
 		try {
 			
