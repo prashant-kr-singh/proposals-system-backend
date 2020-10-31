@@ -1,5 +1,6 @@
 package com.soprabanking.ips.controllers;
 
+import java.awt.PageAttributes.MediaType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -134,8 +135,8 @@ public class FeedController {
 	
 	
 	//[ "2020-10-15", "2020-10-29"]
-	@CrossOrigin
-	@PostMapping(value = "/all", consumes = "application/json", produces = "application/json")
+	//@PostMapping(value = "/all", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/all", consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Proposal>> getAllProposalFeed(
 				@RequestBody String body){
 		
