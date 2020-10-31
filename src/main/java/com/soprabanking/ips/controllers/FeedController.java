@@ -1,5 +1,6 @@
 package com.soprabanking.ips.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -90,6 +91,7 @@ public class FeedController {
 		Proposal p1 = new Proposal();
 		p1.setTitle("Title 1");
 		p1.setDescription("Description 1");
+		p1.setUpvotesCount((long)10);
 		p1.setCreationDate(new Date());
 		p1.setUser(user1);
 		p1.setTeams(l1);
@@ -98,6 +100,7 @@ public class FeedController {
 		Proposal p2 = new Proposal();
 		p2.setTitle("Title 2");
 		p2.setDescription("Description 2");
+		p2.setUpvotesCount((long)2);
 		p2.setCreationDate(new Date());
 		p2.setUser(user2);
 		p2.setTeams(l2);
@@ -106,6 +109,7 @@ public class FeedController {
 		Proposal p3 = new Proposal();
 		p3.setTitle("Title 3");
 		p3.setDescription("Description 3");
+		p3.setUpvotesCount((long)4);
 		p3.setCreationDate(new Date());
 		p3.setUser(user3);
 		p3.setTeams(l1);
@@ -114,6 +118,7 @@ public class FeedController {
 		Proposal p4 = new Proposal();
 		p4.setTitle("Title 4");
 		p4.setDescription("Description 4");
+		p4.setUpvotesCount((long)8);
 		p4.setCreationDate(new Date());
 		p4.setUser(user4);
 		p4.setTeams(l2);
@@ -137,7 +142,13 @@ public class FeedController {
 		
 		System.out.println("d " + startDate);
 		
-		return new ResponseEntity<>(feedService.fetchAllProposals(startDate, endDate, page, size),
+		try {
+			
+			return new ResponseEntity<>(feedService.fetchAllProposals(startDate, endDate, page, size),
 						HttpStatus.OK);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 }

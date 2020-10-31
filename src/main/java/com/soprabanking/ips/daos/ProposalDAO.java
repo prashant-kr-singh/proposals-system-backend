@@ -18,7 +18,7 @@ public class ProposalDAO {
 	
 	public Slice<Proposal> fetchAllProposals(Date startDate, Date endDate, Pageable pageable) {
 		
-		return proposalRepository.findAllByCreationDateBetween(startDate, endDate, pageable);
+		return proposalRepository.findAllByCreationDateBetweenOrderByUpvotesCountDesc(startDate, endDate, pageable);
 		
 	}
 	
