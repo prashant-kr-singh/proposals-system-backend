@@ -3,6 +3,7 @@ package com.soprabanking.ips.services;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -29,8 +30,11 @@ public class FeedService {
 			JsonNode obj = mapper.readTree(body);
 			
 			String dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-			Date startDate = new SimpleDateFormat(dateFormat).parse(obj.get("startDate").asText());
-			Date endDate = new SimpleDateFormat(dateFormat).parse(obj.get("endDate").asText());
+			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+			sdf.setTimeZone(TimeZone.getTimeZone("Asia/kolkata"));
+			
+			Date startDate = sdf.parse(obj.get("startDate").asText());
+			Date endDate = sdf.parse(obj.get("endDate").asText());
 			int page = Integer.parseInt(obj.get("page").asText());
 			int size = Integer.parseInt(obj.get("size").asText());
 			
