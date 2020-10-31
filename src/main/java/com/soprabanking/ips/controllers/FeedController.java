@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.soprabanking.ips.models.Proposal;
@@ -24,6 +24,7 @@ import com.soprabanking.ips.repositories.TeamRepository;
 import com.soprabanking.ips.repositories.UserRepository;
 import com.soprabanking.ips.services.FeedService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/feed")
 public class FeedController {
@@ -133,18 +134,16 @@ public class FeedController {
 	
 	
 	//[ "2020-10-15", "2020-10-29"]
-	@PostMapping("/all")
+	@CrossOrigin
+	@PostMapping(value = "/all", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<List<Proposal>> getAllProposalFeed(
-				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date startDate,
-				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date endDate,
-				@RequestParam int page,
-				@RequestParam int size){
+				@RequestBody String body){
 		
-		System.out.println("d " + startDate);
+		System.out.println("d " + body);
 		
 		try {
 			
-			return new ResponseEntity<>(feedService.fetchAllProposals(startDate, endDate, page, size),
+			return new ResponseEntity<>(feedService.fetchAllProposals(body),
 						HttpStatus.OK);
 		}
 		catch (Exception e) {
