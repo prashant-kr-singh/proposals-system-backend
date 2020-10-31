@@ -18,15 +18,18 @@ public class FeedService {
 	@Autowired
 	private ProposalDAO proposalDAO;
 	
-	public List<Proposal> fetchAllProposals(Date startDate, Date endDate, int page, int size) {
+	public List<Proposal> fetchAllProposals(Date startDate, Date endDate, int page, int size) throws Exception {
 		
 		try {
+			if(startDate.after(endDate))
+				throw new Exception();
+			
 			Pageable pageable = PageRequest.of(page, size);
 			Slice<Proposal> result = proposalDAO.fetchAllProposals(startDate, endDate, pageable);
 			return result.getContent();
 		}
 		catch(Exception ex) {
-			return null;
+			throw new Exception();
 		}
 	}
 }
