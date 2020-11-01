@@ -1,6 +1,7 @@
 package com.soprabanking.ips.controllers;
 
-import java.awt.PageAttributes.MediaType;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,7 +22,6 @@ import com.soprabanking.ips.models.Proposal;
 import com.soprabanking.ips.models.Team;
 import com.soprabanking.ips.models.User;
 import com.soprabanking.ips.repositories.ProposalRepository;
-import com.soprabanking.ips.repositories.TeamRepository;
 import com.soprabanking.ips.repositories.UserRepository;
 import com.soprabanking.ips.services.FeedService;
 
@@ -32,9 +32,6 @@ public class FeedController {
 	
 	@Autowired
 	private FeedService feedService;
-	
-	@Autowired
-	private TeamRepository teamRepository;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -133,22 +130,30 @@ public class FeedController {
 		return u;
 	}
 	
-	
-	//[ "2020-10-15", "2020-10-29"]
-	//@PostMapping(value = "/all", consumes = "application/json", produces = "application/json")
-	@PostMapping(value = "/all", consumes = org.springframework.http.MediaType.APPLICATION_JSON_VALUE, produces = org.springframework.http.MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/all", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Proposal>> getAllProposalFeed(
 				@RequestBody String body){
-		
-		//System.out.println("d " + body);
 		
 		try {
 			
 			return new ResponseEntity<>(feedService.fetchAllProposals(body),
 						HttpStatus.OK);
 		}
-		catch (Exception e) {
-			return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NOT_ACCEPTABLE);
+		catch (Exception ex) {
+			return new ResponseEntity<List<Proposal>>(new ArrayList<>(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+	
+	@PostMapping(value = "/created", consumes = APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Proposal>> getUserProposalFeed(
+				@RequestBody String body){
+		
+		try {
+			return new ResponseEntity<>(feedService.fetchUserProposals(body),
+						HttpStatus.OK);
+		}
+		catch(Exception ex) {
+			return new ResponseEntity<List<Proposal>>(new ArrayList<>(), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 }
