@@ -53,7 +53,7 @@ public class FeedService {
 			Date endDate = DateUtil.stringToISTDate(jsonObj.get("endDate").asText());
 			int page = Integer.parseInt(jsonObj.get("page").asText());
 			int size = Integer.parseInt(jsonObj.get("size").asText());
-			Long userId = Long.parseLong(jsonObj.get("id").asText());
+			Long userId = Long.parseLong(jsonObj.get("userId").asText());
 			
 			if(startDate.after(endDate))
 				throw new Exception();
