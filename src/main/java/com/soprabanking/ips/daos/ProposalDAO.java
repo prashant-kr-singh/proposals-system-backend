@@ -22,4 +22,9 @@ public class ProposalDAO {
 		
 	}
 	
+	public Slice<Proposal> fetchUserProposals(Long id, Date startDate, Date endDate, Pageable pageable){
+		
+		return proposalRepository.findAllByIdAndCreationDateBetweenOrderByUpvotesCountDesc(id, startDate, endDate, pageable);
+	}
+	
 }
