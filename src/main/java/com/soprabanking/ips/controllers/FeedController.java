@@ -1,38 +1,37 @@
 package com.soprabanking.ips.controllers;
 
-import java.util.Collections;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.soprabanking.ips.models.Proposal;
 import com.soprabanking.ips.models.Team;
 import com.soprabanking.ips.models.User;
 import com.soprabanking.ips.repositories.ProposalRepository;
-import com.soprabanking.ips.repositories.TeamRepository;
 import com.soprabanking.ips.repositories.UserRepository;
 import com.soprabanking.ips.services.FeedService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/feed")
 public class FeedController {
 	
 	@Autowired
 	private FeedService feedService;
-	
-	@Autowired
-	private TeamRepository teamRepository;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -91,6 +90,7 @@ public class FeedController {
 		Proposal p1 = new Proposal();
 		p1.setTitle("Title 1");
 		p1.setDescription("Description 1");
+		p1.setUpvotesCount((long)10);
 		p1.setCreationDate(new Date());
 		p1.setUser(user1);
 		p1.setTeams(l1);
@@ -99,6 +99,7 @@ public class FeedController {
 		Proposal p2 = new Proposal();
 		p2.setTitle("Title 2");
 		p2.setDescription("Description 2");
+		p2.setUpvotesCount((long)2);
 		p2.setCreationDate(new Date());
 		p2.setUser(user2);
 		p2.setTeams(l2);
@@ -107,6 +108,7 @@ public class FeedController {
 		Proposal p3 = new Proposal();
 		p3.setTitle("Title 3");
 		p3.setDescription("Description 3");
+		p3.setUpvotesCount((long)4);
 		p3.setCreationDate(new Date());
 		p3.setUser(user3);
 		p3.setTeams(l1);
@@ -115,6 +117,7 @@ public class FeedController {
 		Proposal p4 = new Proposal();
 		p4.setTitle("Title 4");
 		p4.setDescription("Description 4");
+		p4.setUpvotesCount((long)8);
 		p4.setCreationDate(new Date());
 		p4.setUser(user4);
 		p4.setTeams(l2);
@@ -127,18 +130,30 @@ public class FeedController {
 		return u;
 	}
 	
-	
-	//[ "2020-10-15", "2020-10-29"]
-	@PostMapping("/all")
+	@PostMapping(value = "/all", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Proposal>> getAllProposalFeed(
-				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
-				@RequestParam int page,
-				@RequestParam int size){
+				@RequestBody String body){
 		
-		System.out.println("d " + startDate);
-		
-		return new ResponseEntity<>(feedService.fetchAllProposals(startDate, endDate, page, size),
+		try {
+			
+			return new ResponseEntity<>(feedService.fetchAllProposals(body),
 						HttpStatus.OK);
+		}
+		catch (Exception ex) {
+			return new ResponseEntity<List<Proposal>>(new ArrayList<>(), HttpStatus.NOT_ACCEPTABLE);
+		}
+	}
+	
+	@PostMapping(value = "/created", consumes = APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Proposal>> getUserProposalFeed(
+				@RequestBody String body){
+		
+		try {
+			return new ResponseEntity<>(feedService.fetchUserProposals(body),
+						HttpStatus.OK);
+		}
+		catch(Exception ex) {
+			return new ResponseEntity<List<Proposal>>(new ArrayList<>(), HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 }
