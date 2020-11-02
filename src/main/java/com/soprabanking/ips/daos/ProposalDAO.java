@@ -1,7 +1,9 @@
 package com.soprabanking.ips.daos;
 
 import java.util.Date;
+import java.util.List;
 
+import com.soprabanking.ips.models.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -20,6 +22,10 @@ public class ProposalDAO {
 		
 		return proposalRepository.findAllByCreationDateBetween(startDate, endDate, pageable);
 		
+	}
+
+	public List<Proposal> getDefault(Team team, Date start, Date end, Pageable pageable){
+		return proposalRepository.findByTeamsAndCreationDateBetween(team,start,end,pageable);
 	}
 	
 }

@@ -1,20 +1,26 @@
 package com.soprabanking.ips.controllers;
 
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import com.soprabanking.ips.services.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.soprabanking.ips.models.Proposal;
 import com.soprabanking.ips.models.Team;
@@ -39,6 +45,9 @@ public class FeedController {
 	
 	@Autowired
 	private ProposalRepository proposalRepository;
+
+	@Autowired
+	ProposalService proposalService;
 	
 	@GetMapping("/save")
 	public User save() {
@@ -141,4 +150,12 @@ public class FeedController {
 		return new ResponseEntity<>(feedService.fetchAllProposals(startDate, endDate, page, size),
 						HttpStatus.OK);
 	}
+
+	@PostMapping("/team")
+	public ResponseEntity<Object> defaults(@RequestBody String body){
+		Optional<List<Proposal>> optionalProposalDtoList= Optional.ofNullable(proposalService.getDefault(body));
+		return optionalProposalDtoList.<ResponseEntity<Object>>map(proposals -> new ResponseEntity<>(proposals, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>("No data available for current team.", HttpStatus.NOT_FOUND));
+	}
+
+
 }
