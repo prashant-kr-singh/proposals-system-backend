@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "proposals")
@@ -31,9 +33,11 @@ public class Proposal {
 
 	@Column(columnDefinition = "bigint default 0")
 	private Long upvotesCount = 0L;
+	@Column(name = "creation_date")
 	private Date creationDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User user;
@@ -44,6 +48,7 @@ public class Proposal {
 	private Set<Comment> comments;*/
 	
 	@ManyToMany(fetch = FetchType.LAZY)
+	@Cascade(CascadeType.ALL)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Set<Team> teams;
 	

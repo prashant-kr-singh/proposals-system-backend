@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "upvotes")
@@ -21,12 +23,12 @@ public class Upvotes {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	@JsonBackReference
+	@Cascade(CascadeType.ALL)
 	private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "proposal_id", nullable = false)
-	@JsonBackReference
+	@Cascade(CascadeType.ALL)
 	private Proposal proposal;
 	
 	public Upvotes() {
