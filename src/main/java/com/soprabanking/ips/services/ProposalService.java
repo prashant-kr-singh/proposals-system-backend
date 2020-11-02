@@ -7,6 +7,7 @@ import com.soprabanking.ips.daos.TeamDAO;
 import com.soprabanking.ips.models.*;
 import com.soprabanking.ips.repositories.CommentRepository;
 import com.soprabanking.ips.repositories.TeamRepository;
+import com.soprabanking.ips.utilities.DateUtil;
 import com.soprabanking.ips.utilities.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -36,15 +37,17 @@ public class ProposalService {
 
     public List<Proposal> getDefault(String body) {
         try {
-            LocalDate localDate = LocalDate.now().minusMonths(1);
-            JsonNode jsonObj = JsonUtil.stringToJson(body);
-            int page = Integer.parseInt(jsonObj.get("page").asText());
-            int size = Integer.parseInt(jsonObj.get("size").asText());
-            Long teamId = Long.parseLong(jsonObj.get("teamId").asText());
-            Team team = teamDAO.getTeam(teamId);
-            Date startDate = Date.from(localDate.with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay(ZoneId.systemDefault()).toInstant());
-            Date endDate = Date.from(localDate.with(TemporalAdjusters.lastDayOfMonth()).atStartOfDay(ZoneId.systemDefault()).toInstant());
-            List<Proposal> proposals = proposalDao.getDefault(team, startDate, endDate, PageRequest.of(page, size, Sort.Direction.DESC, "upvotesCount"));
+            
+        	JsonNode jsonObj = JsonUtil.stringToJson(body);
+			
+			Date startDate = DateUtil.stringToISTDate(jsonObj.get("startDate").asText());
+			Date endDate = DateUtil.stringToISTDate(jsonObj.get("endDate").asText());
+			int page = Integer.parseInt(jsonObj.get("page").asText());
+			int size = Integer.parseInt(jsonObj.get("size").asText());
+			Long teamId = Long.parseLong(jsonObj.get("teamId").asText());
+			
+			Team team = teamDAO.getTeam(teamId);
+        	List<Proposal> proposals = proposalDao.getDefault(team, startDate, endDate, PageRequest.of(page, size, Sort.Direction.DESC, "upvotesCount"));
 
             return !proposals.isEmpty() ? proposals : null;
 
