@@ -14,11 +14,13 @@ public interface ProposalRepository extends JpaRepository<Proposal, Long> {
 		
 	Slice<Proposal> findSliceBy(Pageable pageable);
 	
-	Slice<Proposal> findAllByCreationDateBetweenOrderByUpvotesCountDesc(Date startDate, Date endDate, Pageable pageable);
+	Slice<Proposal> findAllByCreationDateBetween(Date startDate, Date endDate, Pageable pageable);
 	
+
 	Slice<Proposal> findAllByIdAndCreationDateBetweenOrderByUpvotesCountDesc(Long id, Date startDate, Date endDate, Pageable pageable);
 	
 	List<Proposal> findByTeamsAndCreationDateBetween(Team team, Date startDate, Date endDate, Pageable pageable);
 	
+
 
 }
