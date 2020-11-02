@@ -19,7 +19,7 @@ import com.soprabanking.ips.models.Upvotes;
 import com.soprabanking.ips.services.UpvotesService;
 
 @RestController
-@RequestMapping(value= {"/feed/all","/feed/user","/feed/team"})
+@RequestMapping("/upvotes")
 public class UpvotesController
 {
 	@Autowired
@@ -31,7 +31,7 @@ public class UpvotesController
     	return new ResponseEntity<List<Upvotes>>(upvotesService.listUpvotes(proposalId),HttpStatus.OK);
 	}*/
     
-    @PostMapping(value="/newupvote",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value="/like",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> upvoteProposal(@RequestBody String body)
     {
     	try
@@ -46,7 +46,7 @@ public class UpvotesController
     	}
     }
     
-    @PostMapping(value="/revupvote",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value="/dislike",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<String> reverseupvoteProposal(@RequestBody String body)
     {
          

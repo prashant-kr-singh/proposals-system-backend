@@ -18,37 +18,33 @@ import com.soprabanking.ips.models.Comment;
 import com.soprabanking.ips.services.CommentService;
 
 @RestController
-@RequestMapping(value={"/feed/all","/feed/team","/feed/user"})
+@RequestMapping("/comment")
 public class CommentController 
 {
 	@Autowired
    private CommentService commentService;
 	
-	@GetMapping(value="/comments",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@GetMapping(value="/all",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Comment>> displayComments(@RequestBody String body)
 	{
-		try
-		{
-		return new ResponseEntity<List<Comment>>(commentService.displayComments(body),HttpStatus.OK);
+		try{
+			return new ResponseEntity<List<Comment>>(commentService.displayComments(body),HttpStatus.OK);
 		}
 		
-		catch(Exception ex) 
-		{
+		catch(Exception ex){
 			return new ResponseEntity<List<Comment>>(new ArrayList<>(), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 	
-	@PostMapping(value="/newcomment",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@PostMapping(value="/add",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> addComment(@RequestBody String body)
 	{
-		try
-		{
+		try{
 			Comment saved= commentService.addComment(body);
 		    return new ResponseEntity<String>("Posted comment '"+saved.getComment()+"'",HttpStatus.OK);
          
 		}
-		catch(Exception ex)
-		{
+		catch(Exception ex){
 			return new ResponseEntity<String>("Comment not posted", HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
