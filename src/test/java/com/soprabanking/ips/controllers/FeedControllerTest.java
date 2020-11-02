@@ -104,8 +104,8 @@ public class FeedControllerTest {
 		proposals.add(proposal1);
 		proposals.add(proposal2);
 		
-		when(feedService.fetchAllProposals(now, now, 0, 5))
-		.thenReturn(proposals);
+		/*when(feedService.fetchAllProposals(now, now, 0, 5))
+		.thenReturn(proposals);*/
 	
 		MvcResult actualResult =  mockMvc.perform(post("/feed/all")
 				.param("startDate", ds)
