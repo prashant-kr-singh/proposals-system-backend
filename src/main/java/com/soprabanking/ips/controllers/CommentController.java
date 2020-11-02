@@ -39,7 +39,7 @@ public class CommentController
 	}
 	
 	@PostMapping(value="/newcomment",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> addComment(@RequestBody Comment body)
+	public ResponseEntity<String> addComment(@RequestBody String body)
 	{
 		try
 		{

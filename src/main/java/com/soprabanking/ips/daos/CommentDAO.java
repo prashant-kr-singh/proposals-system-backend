@@ -1,6 +1,6 @@
 package com.soprabanking.ips.daos;
 
-import java.util.Date;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class CommentDAO {
 	
 	public Comment createComment(Comment com)
 	{
-		com.setCreationDate(new Date());
+		
 		Comment saved=commentRepository.save(com);
 		return saved;
 	}

@@ -30,6 +30,7 @@ public class UpvotesDAO
 	{
 		return upvotesRepository.findAllByProposalId(proposalId);
 	}
+	
 	public void deleteUpvote(Upvotes upvote) {
 		// TODO Auto-generated method stub
 		Proposal proposalUpvoted=upvote.getProposal();
@@ -39,5 +40,10 @@ public class UpvotesDAO
 		upvotesRepository.delete(upvote);
 		
 	}
+	public Upvotes getUpvoteforUserIdAndProposalId(Long uid,Long pid)
+	{
+		return upvotesRepository.findByUserId(uid);
+	}
+	
 	
 }

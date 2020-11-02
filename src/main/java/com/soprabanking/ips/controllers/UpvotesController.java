@@ -1,7 +1,7 @@
 package com.soprabanking.ips.controllers;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 
 import java.util.List;
 
@@ -25,18 +25,18 @@ public class UpvotesController
 	@Autowired
 	private UpvotesService upvotesService;
 	
-    @GetMapping("/upvotes")
+    /*@GetMapping("/upvotes")
 	public ResponseEntity<List<Upvotes>> displayUpvotes(@RequestParam Long proposalId)
 	{
     	return new ResponseEntity<List<Upvotes>>(upvotesService.listUpvotes(proposalId),HttpStatus.OK);
-	}
+	}*/
     
     @PostMapping(value="/newupvote",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> upvoteProposal(@RequestBody Upvotes upvote)
+    public ResponseEntity<String> upvoteProposal(@RequestBody String body)
     {
     	try
     	{
-    		upvotesService.upvoteProposal(upvote);
+    		upvotesService.upvoteProposal(body);
     	return new ResponseEntity<String>("Saved your upvote",HttpStatus.OK);
         
     	}
@@ -44,13 +44,15 @@ public class UpvotesController
     	{
     		return new ResponseEntity<String>("Unable to upvote proposal",HttpStatus.NOT_ACCEPTABLE);
     	}
-    	}
-    public ResponseEntity<String> reverseupvoteProposal(@RequestBody Upvotes upvote)
+    }
+    
+    @PostMapping(value="/revupvote",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> reverseupvoteProposal(@RequestBody String body)
     {
          
          try
      	{
-        	 upvotesService.reverseUpvote(upvote);
+        	 upvotesService.reverseUpvote(body);
      	return new ResponseEntity<String>("Reversed your upvote",HttpStatus.OK);
          
      	}
@@ -61,5 +63,16 @@ public class UpvotesController
          
         
    	}
-   
+    @PostMapping(value="/hasupvoted",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Boolean> hasUpvotedOrNot(@RequestBody String body)
+    {
+       try
+       {
+    	  return new ResponseEntity<Boolean>(upvotesService.hasUpvoted(body),HttpStatus.OK);
+       }
+       catch(Exception e)
+       {
+    	   return new ResponseEntity<Boolean>(false,HttpStatus.NOT_ACCEPTABLE);
+       }
+    }
 }
