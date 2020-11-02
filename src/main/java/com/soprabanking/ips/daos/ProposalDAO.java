@@ -20,7 +20,7 @@ public class ProposalDAO {
 	
 	public Slice<Proposal> fetchAllProposals(Date startDate, Date endDate, Pageable pageable) {
 		
-		return proposalRepository.findAllByCreationDateBetween(startDate, endDate, pageable);
+		return proposalRepository.findAllByCreationDateBetweenOrderByUpvotesCountDesc(startDate, endDate, pageable);
 		
 	}
 
@@ -30,15 +30,22 @@ public class ProposalDAO {
 
 	}
 	
-public Slice<Proposal> fetchUserProposals(Long id, Date startDate, Date endDate, Pageable pageable){
+	public Slice<Proposal> fetchUserProposals(Long id, Date startDate, Date endDate, Pageable pageable){
 		
-		return proposalRepository.findAllByIdAndCreationDateBetweenOrderByUpvotesCountDesc(id, startDate, endDate, pageable);
+		return proposalRepository.findAllByUserIdAndCreationDateBetweenOrderByUpvotesCountDesc(id, startDate, endDate, pageable);
 	}
 
 	public Proposal getById(Long id)
 	{
 		return proposalRepository.getOne(id);
 
+	}
+	
+	public Proposal saveProposal(Proposal p) {
+		
+		Proposal proposal = proposalRepository.saveAndFlush(p);
+		proposalRepository.flush();
+		return proposal;
 	}
 	
 }

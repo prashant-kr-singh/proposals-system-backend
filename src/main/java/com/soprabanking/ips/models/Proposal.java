@@ -48,7 +48,7 @@ public class Proposal {
 	private Set<Comment> comments;*/
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.PERSIST)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Set<Team> teams;
 	
@@ -127,8 +127,7 @@ public class Proposal {
 		return "Proposal [Id=" + id + ", title=" + title + ", description=" + description + ", upvotesCount="
 				+ upvotesCount + ", creationDate=" + creationDate + ", user=" + user
 				+ ", teams=" + teams  + "]";
-	}
-	
+	}	
 	
 	
 
