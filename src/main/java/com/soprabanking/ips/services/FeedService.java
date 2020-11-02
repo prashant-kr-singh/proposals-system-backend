@@ -30,10 +30,6 @@ public class FeedService {
 			Date endDate = DateUtil.stringToISTDate(jsonObj.get("endDate").asText());
 			int page = Integer.parseInt(jsonObj.get("page").asText());
 			int size = Integer.parseInt(jsonObj.get("size").asText());
-			System.out.println(startDate);
-			System.out.println(endDate);
-			System.out.println(page);
-			System.out.println(size);
 			
 			if(startDate.after(endDate))
 				throw new Exception();
