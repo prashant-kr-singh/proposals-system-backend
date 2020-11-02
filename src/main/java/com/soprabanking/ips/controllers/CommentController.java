@@ -24,7 +24,7 @@ public class CommentController
 	@Autowired
    private CommentService commentService;
 	
-	@GetMapping(value="/all",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+	@PostMapping(value="/all",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Comment>> displayComments(@RequestBody String body)
 	{
 		try{
