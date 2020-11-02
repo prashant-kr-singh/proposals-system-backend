@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.soprabanking.ips.daos.ProposalDAO;
 import com.soprabanking.ips.daos.TeamDAO;
+import com.soprabanking.ips.daos.UserDAO;
 import com.soprabanking.ips.models.*;
 import com.soprabanking.ips.repositories.CommentRepository;
 import com.soprabanking.ips.repositories.TeamRepository;
@@ -32,7 +33,7 @@ public class ProposalService {
     TeamRepository teamRepository;*/
 
     @Autowired
-    TeamDAO teamDAO;
+    UserDAO userDAO;
 
     public List<Proposal> getDefault(String body) {
         try {
@@ -40,8 +41,8 @@ public class ProposalService {
             JsonNode jsonObj = JsonUtil.stringToJson(body);
             int page = Integer.parseInt(jsonObj.get("page").asText());
             int size = Integer.parseInt(jsonObj.get("size").asText());
-            Long teamId = Long.parseLong(jsonObj.get("teamId").asText());
-            Team team = teamDAO.getTeam(teamId);
+            Long userId = Long.parseLong(jsonObj.get("userId").asText());
+            Team team = userDAO.getTeam(userId);
             Date startDate = Date.from(localDate.with(TemporalAdjusters.firstDayOfMonth()).atStartOfDay(ZoneId.systemDefault()).toInstant());
             Date endDate = Date.from(localDate.with(TemporalAdjusters.lastDayOfMonth()).atStartOfDay(ZoneId.systemDefault()).toInstant());
             List<Proposal> proposals = proposalDao.getDefault(team, startDate, endDate, PageRequest.of(page, size, Sort.Direction.DESC, "upvotesCount"));
