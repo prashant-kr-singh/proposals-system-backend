@@ -1,6 +1,7 @@
 package com.soprabanking.ips.controllers;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -141,16 +142,31 @@ public class FeedController {
 	
 	//[ "2020-10-15", "2020-10-29"]
 	@PostMapping("/all")
-	public ResponseEntity<List<Proposal>> getAllProposalFeed(
-				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-				@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
-				@RequestParam int page,
-				@RequestParam int size){
+	public ResponseEntity<List<Proposal>> getAllProposalFeed(@RequestBody String body){
 		
-		System.out.println("d " + startDate);
 		
-		return new ResponseEntity<>(feedService.fetchAllProposals(startDate, endDate, page, size),
+		
+		try {
+			return new ResponseEntity<>(feedService.fetchAllProposals(body),
+							HttpStatus.OK);
+		}
+		catch (Exception e) 
+		{
+			return new ResponseEntity<List<Proposal>>(new ArrayList<>(), HttpStatus.NOT_ACCEPTABLE);
+			
+		}
+	}
+	@PostMapping(value = "/created", consumes = APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Proposal>> getUserProposalFeed(
+				@RequestBody String body){
+		
+		try {
+			return new ResponseEntity<>(feedService.fetchUserProposals(body),
 						HttpStatus.OK);
+		}
+		catch(Exception ex) {
+			return new ResponseEntity<List<Proposal>>(new ArrayList<>(), HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 
 	@PostMapping("/team")

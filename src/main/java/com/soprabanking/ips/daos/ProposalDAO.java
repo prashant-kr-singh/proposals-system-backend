@@ -29,6 +29,12 @@ public class ProposalDAO {
 		return proposalRepository.findByTeamsAndCreationDateBetween(team,start,end,pageable);
 
 	}
+	
+public Slice<Proposal> fetchUserProposals(Long id, Date startDate, Date endDate, Pageable pageable){
+		
+		return proposalRepository.findAllByIdAndCreationDateBetweenOrderByUpvotesCountDesc(id, startDate, endDate, pageable);
+	}
+
 	public Proposal getById(Long id)
 	{
 		return proposalRepository.getOne(id);
