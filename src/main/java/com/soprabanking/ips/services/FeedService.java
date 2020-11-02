@@ -9,8 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.soprabanking.ips.daos.ProposalDAO;
 import com.soprabanking.ips.models.Proposal;
+import com.soprabanking.ips.utilities.DateUtil;
+import com.soprabanking.ips.utilities.JsonUtil;
 
 @Service
 public class FeedService {
@@ -18,7 +21,7 @@ public class FeedService {
 	@Autowired
 	private ProposalDAO proposalDAO;
 	
-	public List<Proposal> fetchAllProposals(Date startDate, Date endDate, int page, int size) {
+	public List<Proposal> fetchAllProposals(String body) throws Exception {
 		
 		try {
 

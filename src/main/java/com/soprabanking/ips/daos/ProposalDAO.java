@@ -23,15 +23,16 @@ public class ProposalDAO {
 		return proposalRepository.findAllByCreationDateBetween(startDate, endDate, pageable);
 		
 	}
-<<<<<<< Updated upstream
+
 
 	public List<Proposal> getDefault(Team team, Date start, Date end, Pageable pageable){
 		return proposalRepository.findByTeamsAndCreationDateBetween(team,start,end,pageable);
-=======
+
+	}
 	public Proposal getById(Long id)
 	{
 		return proposalRepository.getOne(id);
->>>>>>> Stashed changes
+
 	}
 	
 }
