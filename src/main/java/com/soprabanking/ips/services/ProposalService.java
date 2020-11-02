@@ -1,28 +1,20 @@
 package com.soprabanking.ips.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.soprabanking.ips.daos.ProposalDAO;
-import com.soprabanking.ips.daos.TeamDAO;
-import com.soprabanking.ips.models.*;
-import com.soprabanking.ips.repositories.CommentRepository;
-import com.soprabanking.ips.repositories.TeamRepository;
-import com.soprabanking.ips.utilities.DateUtil;
-import com.soprabanking.ips.utilities.JsonUtil;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.soprabanking.ips.daos.ProposalDAO;
+import com.soprabanking.ips.daos.TeamDAO;
+import com.soprabanking.ips.models.Proposal;
+import com.soprabanking.ips.models.Team;
+import com.soprabanking.ips.utilities.DateUtil;
+import com.soprabanking.ips.utilities.JsonUtil;
 
 @Service
 public class ProposalService {
