@@ -16,7 +16,7 @@ public class CommentDAO {
 	
 	public List<Comment> fetchAllComments(Long proposalId)
 	{
-		return commentRepository.findAllByProposalId(proposalId);
+		return commentRepository.findAllByProposalIdOrderByCreationDateDesc(proposalId);
 	}
 	
 	public Comment createComment(Comment com)

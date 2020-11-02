@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +34,7 @@ import com.soprabanking.ips.repositories.UserRepository;
 import com.soprabanking.ips.services.FeedService;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/feed")
 public class FeedController {
 	
