@@ -18,6 +18,9 @@ public class UpvotesService
 	{
 		try
 		{
+			if(upvote==null)
+				throw new Exception("Unable to upvote");
+			
 		Upvotes upvoted=upvotesDao.createUpvote(upvote);
 		return upvoted;
 		}
@@ -25,6 +28,12 @@ public class UpvotesService
 		{
 			return null;
 		}
+	}
+	
+	public void reverseUpvote(Upvotes upvote)
+	{
+			upvotesDao.deleteUpvote(upvote);
+		
 	}
 	
 	public List<Upvotes> listUpvotes(Long proposalId)

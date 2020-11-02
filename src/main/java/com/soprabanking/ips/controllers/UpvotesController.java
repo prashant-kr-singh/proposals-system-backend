@@ -1,4 +1,7 @@
 package com.soprabanking.ips.controllers;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import java.util.List;
 
@@ -7,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,12 +31,35 @@ public class UpvotesController
     	return new ResponseEntity<List<Upvotes>>(upvotesService.listUpvotes(proposalId),HttpStatus.OK);
 	}
     
-    @PostMapping("/newupvote")
-    public ResponseEntity<Upvotes> upvoteProposal(@RequestParam Upvotes upvote)
+    @PostMapping(value="/newupvote",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> upvoteProposal(@RequestBody Upvotes upvote)
     {
-    	return new ResponseEntity<Upvotes>(upvotesService.upvoteProposal(upvote),HttpStatus.OK);
-    }
+    	try
+    	{
+    		upvotesService.upvoteProposal(upvote);
+    	return new ResponseEntity<String>("Saved your upvote",HttpStatus.OK);
+        
+    	}
+    	catch(Exception e)
+    	{
+    		return new ResponseEntity<String>("Unable to upvote proposal",HttpStatus.NOT_ACCEPTABLE);
+    	}
+    	}
+    public ResponseEntity<String> reverseupvoteProposal(@RequestBody Upvotes upvote)
     {
-    	
-    }
+         
+         try
+     	{
+        	 upvotesService.reverseUpvote(upvote);
+     	return new ResponseEntity<String>("Reversed your upvote",HttpStatus.OK);
+         
+     	}
+     	catch(Exception e)
+     	{
+     		return new ResponseEntity<String>("Unable to reverse the upvote on proposal",HttpStatus.NOT_ACCEPTABLE);
+     	}
+         
+        
+   	}
+   
 }
