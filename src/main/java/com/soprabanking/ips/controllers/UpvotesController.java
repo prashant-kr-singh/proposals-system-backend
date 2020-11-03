@@ -26,34 +26,34 @@ public class UpvotesController
     	return new ResponseEntity<List<Upvotes>>(upvotesService.listUpvotes(proposalId),HttpStatus.OK);
 	}*/
     
-    @PostMapping(value="/like",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value="/like",consumes =APPLICATION_JSON_VALUE)
     public ResponseEntity<String> upvoteProposal(@RequestBody String body)
     {
     	try
     	{
     		upvotesService.upvoteProposal(body);
-    	return new ResponseEntity<String>("Saved your upvote",HttpStatus.OK);
+    	return new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
         
     	}
     	catch(Exception e)
     	{
-    		return new ResponseEntity<String>("Unable to upvote proposal",HttpStatus.NOT_ACCEPTABLE);
+    		return new ResponseEntity<String>("FAILURE",HttpStatus.NOT_ACCEPTABLE);
     	}
     }
     
-    @PostMapping(value="/dislike",consumes =APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value="/dislike",consumes =APPLICATION_JSON_VALUE)
     public ResponseEntity<String> reverseupvoteProposal(@RequestBody String body)
     {
          
          try
      	{
         	 upvotesService.reverseUpvote(body);
-     	return new ResponseEntity<String>("Reversed your upvote",HttpStatus.OK);
+     	return new ResponseEntity<String>("SUCCESS",HttpStatus.OK);
          
      	}
      	catch(Exception e)
      	{
-     		return new ResponseEntity<String>("Unable to reverse the upvote on proposal",HttpStatus.NOT_ACCEPTABLE);
+     		return new ResponseEntity<String>("FAILURE",HttpStatus.NOT_ACCEPTABLE);
      	}
          
         
