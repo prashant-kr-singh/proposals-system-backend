@@ -9,5 +9,6 @@ import com.soprabanking.ips.models.Upvotes;
 public interface UpvotesRepository extends JpaRepository<Upvotes, Long> {
 
 	List<Upvotes> findAllByProposalId(Long proposalId);
-	Upvotes findByUserId(Long userId);
+	
+	Upvotes findByUserIdAndProposalId(Long id, Long pid);
 }
