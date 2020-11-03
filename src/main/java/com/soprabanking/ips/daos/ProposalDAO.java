@@ -43,8 +43,7 @@ public class ProposalDAO {
 	
 	public Proposal saveProposal(Proposal p) {
 		
-		Proposal proposal = proposalRepository.saveAndFlush(p);
-		proposalRepository.flush();
+		Proposal proposal = proposalRepository.save(p);
 		return proposal;
 	}
 	

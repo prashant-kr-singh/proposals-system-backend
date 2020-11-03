@@ -1,19 +1,16 @@
 package com.soprabanking.ips.controllers;
 
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
-import com.soprabanking.ips.services.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,17 +18,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 import com.soprabanking.ips.models.Proposal;
 import com.soprabanking.ips.models.Team;
 import com.soprabanking.ips.models.User;
 import com.soprabanking.ips.repositories.ProposalRepository;
-import com.soprabanking.ips.repositories.TeamRepository;
 import com.soprabanking.ips.repositories.UserRepository;
 import com.soprabanking.ips.services.FeedService;
+import com.soprabanking.ips.services.ProposalService;
 
 @RestController
 @CrossOrigin
@@ -40,9 +35,6 @@ public class FeedController {
 	
 	@Autowired
 	private FeedService feedService;
-	
-	@Autowired
-	private TeamRepository teamRepository;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -140,12 +132,8 @@ public class FeedController {
 		return u;
 	}
 	
-	
-	//[ "2020-10-15", "2020-10-29"]
 	@PostMapping("/all")
 	public ResponseEntity<List<Proposal>> getAllProposalFeed(@RequestBody String body){
-		
-		
 		
 		try {
 			return new ResponseEntity<>(feedService.fetchAllProposals(body),
@@ -157,7 +145,7 @@ public class FeedController {
 			
 		}
 	}
-	@PostMapping(value = "/created", consumes = APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/create", consumes = APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Proposal>> getUserProposalFeed(
 				@RequestBody String body){
 		
@@ -173,7 +161,7 @@ public class FeedController {
 	@PostMapping("/team")
 	public ResponseEntity<Object> defaults(@RequestBody String body){
 		Optional<List<Proposal>> optionalProposalDtoList= Optional.ofNullable(proposalService.getDefault(body));
-		return optionalProposalDtoList.<ResponseEntity<Object>>map(proposals -> new ResponseEntity<>(proposals, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>("No data available for current team.", HttpStatus.NOT_FOUND));
+		return optionalProposalDtoList.<ResponseEntity<Object>>map(proposals -> new ResponseEntity<>(proposals, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND));
 	}
 
 
