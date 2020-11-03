@@ -1,7 +1,5 @@
 package com.soprabanking.ips.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +24,7 @@ public class UpvotesService
 	@Autowired
 	private ProposalDAO proposalDao;
 	
-	public Upvotes upvoteProposal(String body)
+	public Upvotes upvoteProposal(String body) throws Exception
 	{
 		try
 		{
@@ -36,14 +34,19 @@ public class UpvotesService
 			User user=userDao.getById(uid);
 			Proposal proposal=proposalDao.getById(pid);
 			Upvotes upvote=new Upvotes();
+			
 			upvote.setProposal(proposal);
 			upvote.setUser(user);
+			
+			proposal.setUpvotesCount(proposal.getUpvotesCount()+1);
+			proposalDao.saveProposal(proposal);
+			
 		    Upvotes upvoted=upvotesDao.createUpvote(upvote);
 		    return upvoted;
 		}
 		catch(Exception ex)
 		{
-			return null;
+			throw new Exception();
 		}
 	}
 	
@@ -51,11 +54,15 @@ public class UpvotesService
 	{
 		try
 		{
-		JsonNode jsonObj = JsonUtil.stringToJson(body);
-		Long pid=Long.parseLong(jsonObj.get("id").asText());
-		Long uid=Long.parseLong(jsonObj.get("userId").asText());
-		Upvotes upvote=upvotesDao.getUpvoteforUserIdAndProposalId(uid, pid);
-	    upvotesDao.deleteUpvote(upvote);
+			JsonNode jsonObj = JsonUtil.stringToJson(body);
+			Long pid = Long.parseLong(jsonObj.get("id").asText());
+			Long uid = Long.parseLong(jsonObj.get("userId").asText());
+			Upvotes upvote = upvotesDao.getUpvoteforUserIdAndProposalId(uid, pid);
+			Proposal proposal = proposalDao.getById(pid);
+			proposal.setUpvotesCount(proposal.getUpvotesCount()-1);
+			proposalDao.saveProposal(proposal);
+			
+		    upvotesDao.deleteUpvote(upvote);
 		}
 		catch(Exception e)
 		{
@@ -74,7 +81,7 @@ public class UpvotesService
 		}
 	}*/
 	
-	public boolean hasUpvoted(String body)
+	public boolean hasUpvoted(String body) throws Exception
 	{
 		try
 		{
@@ -95,7 +102,7 @@ public class UpvotesService
 		}
 		catch(Exception e)
 		{
-			return false;
+			throw new Exception();
 		}
 	}
 	
