@@ -32,7 +32,7 @@ public class UpvotesDAO
 	
 	public Upvotes getUpvoteforUserIdAndProposalId(Long uid,Long pid)
 	{
-		return upvotesRepository.findByUserId(uid);
+		return upvotesRepository.findByUserIdAndProposalId(uid, pid);
 	}
 	
 	
