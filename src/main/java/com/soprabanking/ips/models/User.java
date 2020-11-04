@@ -1,8 +1,10 @@
 package com.soprabanking.ips.models;
 
+
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,45 +13,45 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "users")
+@Table(name="USERS")
 public class User {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank(message = "Name field is required !!")
 	
-
 	private String name;
+	@Column(unique = true)
 	private String email;
-	
-	@JsonIgnore
+	private String role;
+	@Size(min = 2,max = 20,message = "min 2 and max 20 characters are allowed !!")
+	//@JsonIgnore
 	private String password;
-	@JsonIgnore
+	@Column(nullable=false,updatable=false)
+   @CreationTimestamp
+    @JsonIgnore
 	private Date creationDate;
-	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "team_id", nullable = false)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinColumn(name = "team_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Team team;
 	
-	/*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JsonManagedReference
-	private Set<Proposal> proposals;*/
-	
-	public User() {
-		// TODO Auto-generated constructor stub
-	}
 
+	
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(long i) {
+	public void setId(Long i) {
 		this.id = i;
 	}
 
@@ -77,38 +79,56 @@ public class User {
 		this.password = password;
 	}
 
-	public Team getTeam() {
-		return team;
-	}
-
-	public void setTeam(Team team) {
-		this.team = team;
-	}
-
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
 	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
+		creationDate = creationDate;
 	}
 
-	/*public Set<Proposal> getProposals() {
-		return proposals;
+	public Team getTeam() {
+		return team;
+	}
+	
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
-	public void setProposals(Set<Proposal> proposals) {
-		this.proposals = proposals;
-	}*/
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password="
-				+ password + ", creationDate=" + creationDate + ", team=" + team + "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password
+				+ ", CreationDate=" + creationDate + ", team=" + team + "]";
 	}
+
+	
+
 	
 	
-		
+	
+	
+	
+	
+	
+
+	
+	
+	
 
 }
 

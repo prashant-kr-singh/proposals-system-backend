@@ -1,13 +1,21 @@
 package com.soprabanking.ips.models;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.soprabanking.ips.models.User;
+
 @Entity
-@Table(name	= "teams")
+@Table(name	= "team")
 public class Team {
 	
 	@Id
@@ -16,7 +24,9 @@ public class Team {
 	
 	private String name;
 	
-
+	//@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY , mappedBy="team")
+	//private Set<User> users=new Set<user>();
+	//private Set<User> user = new HashSet<User>();
 	
 	public Team() {
 		// TODO Auto-generated constructor stub
@@ -38,12 +48,25 @@ public class Team {
 		this.name = name;
 	}
 
-
 	@Override
 	public String toString() {
-		return "Team [id=" + id + ", name=" + name  + "]";
+		return "Team [id=" + id + ", name=" + name + "]";
 	}
+
 	
+	
+
+	/*public Set<User> getUser() {
+		return user;
+	}
+
+	public void setUser(Set<User> user) {
+		this.user = user;
+	}*/
+
+	
+
+    
 	
 
 }

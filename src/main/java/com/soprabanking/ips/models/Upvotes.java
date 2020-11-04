@@ -23,12 +23,12 @@ public class Upvotes {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.PERSIST)
 	private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "proposal_id", nullable = false)
-	@Cascade(CascadeType.ALL)
+	@Cascade(CascadeType.PERSIST)
 	private Proposal proposal;
 	
 	public Upvotes() {
