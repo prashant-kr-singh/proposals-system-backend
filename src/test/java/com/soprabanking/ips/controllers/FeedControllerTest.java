@@ -66,7 +66,7 @@ public class FeedControllerTest {
 		when(teamRepository.save(team)).thenReturn(team);
 		when(userRepository.save(user)).thenReturn(user);
 		
-		user.setId(1);
+		//user.setId(1);;
 		team.setId((long) 1);
 		user.setTeam(team);
 		when(userRepository.getOne((long) 1)).thenReturn(user);
