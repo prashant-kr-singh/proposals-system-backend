@@ -23,13 +23,13 @@ public class ProposalController {
 	private ProposalService proposalService;
 
 	@PostMapping(value = "/add", consumes = APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> addProposal(@RequestBody String body){
+	public ResponseEntity<Proposal> addProposal(@RequestBody String body){
 		
 		try {
-			return new ResponseEntity<String>("Created Proposal '"+proposalService.saveProposal(body).getTitle()+"'",HttpStatus.OK);
+			return new ResponseEntity<Proposal>(proposalService.saveProposal(body),HttpStatus.OK);
 		}
 		catch(Exception ex) {
-			return new ResponseEntity<String>("Proposal not saved.", HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<Proposal>(new Proposal(), HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 }

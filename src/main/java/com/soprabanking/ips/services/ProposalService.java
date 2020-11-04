@@ -62,7 +62,7 @@ public class ProposalService {
 			
 			JsonNode jsonObj = JsonUtil.stringToJson(body);
 			
-			String description = jsonObj.get("key").asText();
+			String key = jsonObj.get("key").asText();
 			String title = jsonObj.get("title").asText();
 			String desc = jsonObj.get("description").asText();
 			Long userId = Long.parseLong(jsonObj.get("userId").asText());
@@ -96,12 +96,6 @@ public class ProposalService {
 			 } 
 		catch (Exception e) {
 			throw new Exception();
-	}
-
-    /*public List<Proposal> getDefault(Team  team, int page, Date startDate, Date endDate) {
-        System.out.println(startDate);
-        System.out.println(endDate);
-        return getProposalDtos(team, page, startDate, endDate);
-    }*/
+		}
 	}
 }
