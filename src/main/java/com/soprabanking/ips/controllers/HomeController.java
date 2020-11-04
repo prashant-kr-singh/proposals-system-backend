@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.soprabanking.ips.models.Team;
 import com.soprabanking.ips.models.User;
+import com.soprabanking.ips.authentication.AuthenticationBean;
 import com.soprabanking.ips.helper.Message;
 import com.soprabanking.ips.modelwrap.ModelWrap;
 import com.soprabanking.ips.repositories.TeamRepository;
@@ -40,7 +41,7 @@ public class HomeController
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
-	
+	private Principal principal;
 	@Autowired
 	private TeamRepository teamRepository;
      
@@ -133,13 +134,12 @@ public class HomeController
  		     }
   
 }
+	
 	  //handler for login page
-	  @GetMapping("/signIn")
-	  public String customLogin() {
-		//model.addAttribute("title", "LogInPage - Smaeamrt Contact Manager");
-		//model.addAttribute("user", new User());
+	@GetMapping(path = "/signIn")
+	public AuthenticationBean basicauth() {
+		return new AuthenticationBean("principal");
 		
-		return "username";
 	}
 }
 
